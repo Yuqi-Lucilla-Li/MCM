@@ -15,8 +15,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-############ Simulation: Comparison with other approach ###################
-# kroupa 2019 assessing
+
 
 
 random_seed = 2025
@@ -132,7 +131,7 @@ from scipy.stats import kendalltau
 X_features = [f'X_{i}' for i in range(20)]
 Y_train = df_train['Y']
 
-
+##### here we can compare with a feature selection approach ########
 # weight_array = np.zeros(len(X_features))
 #
 # for i, feature in enumerate(X_features):
@@ -145,8 +144,6 @@ Y_train = df_train['Y']
 
 
 # ---------------------------- Matching ---------------------------------------------
-
-
 
 def Effect_Estimation(match_S, match_Y, time_horizon):
     probabilities = []
@@ -235,6 +232,7 @@ def matching_and_estimation(features, weights, treated_indices, control_indices,
     return probs, means, races
 
 
+# to compare if patients in a matching group have closer ground truth
 def knn_matching_treated(df, X_features, label, k=30, weights=None):
 
     df_treated = df[df['Z'] == label].reset_index(drop=True)
@@ -261,7 +259,6 @@ def knn_matching_treated(df, X_features, label, k=30, weights=None):
 
         return np.array(matched_T1), np.array(matched_E1)
 
-    # 计算匹配组均值
     matched_T1_euclidean, matched_E1_euclidean = get_matching_stats(nn_euclidean)
 
     if weights is not None:
@@ -295,7 +292,7 @@ def knn_matching_treated(df, X_features, label, k=30, weights=None):
 # plt.show()
 
 
-# ----------
+# ---------- Matching Process ------------------
 df_test = df_test.reset_index(drop=True)
 features = df_test[X_features].values
 labels = df_test['Z'].values  # Assuming 'Z' is the treatment indicator
